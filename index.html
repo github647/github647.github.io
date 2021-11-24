@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weather</title>
+
+    <script type="text/javascript">
+
+        function getTrainList(id) {
+            var params = { city: id }
+            const qs = new URLSearchParams(params);
+            fetch(`https://weather.tsukumijima.net/api/forecast?${qs}`)
+                .then(data => {
+                    if (!data.ok) {
+                        console.error('サーバーエラー');
+                    }
+                    // ここに成功時の処理を記述
+                    return data.json(); // 読み込むデータをjsonに設定
+                })
+                .then(function (json) {
+                    console.log(json)
+                    document.getElementById('title').textContent = json.title;
+                    for (var i = 0; i < json.forecasts.length; i++) {
+                        var when = json.forecasts[i]['telop']
+                        var weather = json.forecasts[i]['dateLabel']
+
+                        // var row = document.getElementById('WeatherCondition').insertRow();
+                        // row.insertCell().textContent = when;
+                        // row.insertCell().textContent = weather;
+                        if(i==0){
+                            document.getElementById('今日').textContent = weather;
+                            document.getElementById('今日の天気').textContent = when;                           
+                        }
+                        else if(i==1){
+                            document.getElementById('明日').textContent = weather;
+                            document.getElementById('明日の天気').textContent = when;                           
+                        }
+                        else{
+                            document.getElementById('明後日').textContent = weather;
+                            document.getElementById('明後日の天気').textContent = when;                
+                        }
+                    }               
+                })
+                .catch(error => {
+                    console.error('通信に失敗しました', error);
+                });
+        }
+
+        function PushButton() {
+            const textbox = document.getElementById("input-number")
+            getTrainList(textbox.value)
+        }
+    </script>
+</head>
+
+<body bgcolor="#2f4f4f" text='#f0f8ff'>
+
+    id入力欄
+    <form id="form1" action="#">
+        <input type="number" id="input-number" maxlength="8" value="220040">
+        <input type="button" onclick="PushButton()" value="送信">
+    </form>
+
+    <p id="title"></p>
+    <p id="今日"></p>
+    <p id="今日の天気"></p>
+    <br>
+    <p id="明日"></p>
+    <p id="明日の天気"></p>
+    <br>
+    <p id="明後日"></p>
+    <p id="明後日の天気"></p>
+
+    <table id="WeatherCondition"></table>
+
+    <br>
+    <b>ID一覧</b>
+    <p>北海道地方<br />
+        011000：稚内<br />
+        012010：旭川<br />
+        012020：留萌<br />
+        016010：札幌<br />
+        016020：岩見沢<br />
+        016030：倶知安<br />
+        013010：網走<br />
+        013020：北見<br />
+        013030：紋別<br />
+        014010：根室<br />
+        014020：釧路<br />
+        014030：帯広<br />
+        015010：室蘭<br />
+        015020：浦河<br />
+        017010：函館<br />
+        017020：江差</p>
+    <p>青森県<br />
+        020010：青森<br />
+        020020：むつ<br />
+        020030：八戸</p>
+    <p>岩手県<br />
+        030010：盛岡<br />
+        030020：宮古<br />
+        030030：大船渡</p>
+    <p>宮城県<br />
+        040010：仙台<br />
+        040020：白石</p>
+    <p>秋田県<br />
+        050010：秋田<br />
+        050020：横手</p>
+    <p>山形県<br />
+        060010：山形<br />
+        060020：米沢<br />
+        060030：酒田<br />
+        060040：新庄</p>
+    <p>福島県<br />
+        070010：福島<br />
+        070020：小名浜<br />
+        070030：若松</p>
+    <p>東京都<br />
+        130010：東京<br />
+        130020：大島<br />
+        130030：八丈島<br />
+        130040：父島</p>
+    <p>神奈川県<br />
+        140010：横浜<br />
+        140020：小田原</p>
+    <p>埼玉県<br />
+        110010：さいたま<br />
+        110020：熊谷<br />
+        110030：秩父</p>
+    <p>千葉県<br />
+        120010：千葉<br />
+        120020：銚子<br />
+        120030：館山</p>
+    <p>茨城県<br />
+        080010：水戸<br />
+        080020：土浦</p>
+    <p>栃木県<br />
+        090010：宇都宮<br />
+        090020：大田原</p>
+    <p>群馬県<br />
+        100010：前橋<br />
+        100020：みなかみ</p>
+    <p>山梨県<br />
+        190010：甲府<br />
+        190020：河口湖</p>
+    <p>新潟県<br />
+        150010：新潟<br />
+        150020：長岡<br />
+        150030：高田<br />
+        150040：相川</p>
+    <p>長野県<br />
+        200010：長野<br />
+        200020：松本<br />
+        200030：飯田</p>
+    <p>富山県<br />
+        160010：富山<br />
+        160020：伏木</p>
+    <p>石川県<br />
+        170010：金沢<br />
+        170020：輪島</p>
+    <p>福井県<br />
+        180010：福井<br />
+        180020：敦賀</p>
+    <p>愛知県<br />
+        230010：名古屋<br />
+        230020：豊橋</p>
+    <p>岐阜県<br />
+        210010：岐阜<br />
+        210020：高山</p>
+    <p>静岡県<br />
+        220010：静岡<br />
+        220020：網代<br />
+        220030：三島<br />
+        220040：浜松</p>
+    <p>三重県<br />
+        240010：津<br />
+        240020：尾鷲</p>
+    <p>大阪府<br />
+        270000：大阪</p>
+    <p>兵庫県<br />
+        280010：神戸<br />
+        280020：豊岡</p>
+    <p>京都府<br />
+        260010：京都<br />
+        260020：舞鶴</p>
+    <p>滋賀県<br />
+        250010：大津<br />
+        250020：彦根</p>
+    <p>奈良県<br />
+        290010：奈良<br />
+        290020：風屋</p>
+    <p>和歌山県<br />
+        300010：和歌山<br />
+        300020：潮岬</p>
+    <p>鳥取県<br />
+        310010：鳥取<br />
+        310020：米子</p>
+    <p>島根県<br />
+        320010：松江<br />
+        320020：浜田<br />
+        320030：西郷</p>
+    <p>岡山県<br />
+        330010：岡山<br />
+        330020：津山</p>
+    <p>広島県<br />
+        340010：広島<br />
+        340020：庄原</p>
+    <p>山口県<br />
+        350010：下関<br />
+        350020：山口<br />
+        350030：柳井<br />
+        350040：萩</p>
+    <p>徳島県<br />
+        360010：徳島<br />
+        360020：日和佐</p>
+    <p>香川県<br />
+        370000：高松</p>
+    <p>愛媛県<br />
+        380010：松山<br />
+        380020：新居浜<br />
+        380030：宇和島</p>
+    <p>高知県<br />
+        390010：高知<br />
+        390020：室戸岬<br />
+        390030：清水</p>
+    <p>福岡県<br />
+        400010：福岡<br />
+        400020：八幡<br />
+        400030：飯塚<br />
+        400040：久留米</p>
+    <p>大分県<br />
+        440010：大分<br />
+        440020：中津<br />
+        440030：日田<br />
+        440040：佐伯</p>
+    <p>長崎県<br />
+        420010：長崎<br />
+        420020：佐世保<br />
+        420030：厳原<br />
+        420040：福江</p>
+    <p>佐賀県<br />
+        410010：佐賀<br />
+        410020：伊万里</p>
+    <p>熊本県<br />
+        430010：熊本<br />
+        430020：阿蘇乙姫<br />
+        430030：牛深<br />
+        430040：人吉</p>
+    <p>宮崎県<br />
+        450010：宮崎<br />
+        450020：延岡<br />
+        450030：都城<br />
+        450040：高千穂</p>
+    <p>鹿児島県<br />
+        460010：鹿児島<br />
+        460020：鹿屋<br />
+        460030：種子島<br />
+        460040：名瀬</p>
+    <p>沖縄県<br />
+        471010：那覇<br />
+        471020：名護<br />
+        471030：久米島<br />
+        472000：南大東<br />
+        473000：宮古島<br />
+        474010：石垣島<br />
+        474020：与那国島</p>
+
+</body>
+
+</html>
